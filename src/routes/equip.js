@@ -1,7 +1,7 @@
 // dao
 import { equipDao } from '../dao/equip-dao';
 
-const express = require('express');
+import express from 'express';
 let router = express.Router();
 
 // 查询所有装备

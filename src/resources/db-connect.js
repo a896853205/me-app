@@ -1,5 +1,5 @@
 import { dbConfig } from './mysql-conf';
-const mysql = require('mysql');
+import mysql from 'mysql';
 export const db = {
   /**
    * 数据处理函数,输入sql语句和参数数组和成功函数即可.
