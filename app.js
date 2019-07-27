@@ -4,11 +4,13 @@ import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-
+import { cors } from './conf/cors-config';
+// 路由
 import equip from './src/routes/equip';
 
-var app = express();
+const app = express();
 
+app.all('*', cors);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
