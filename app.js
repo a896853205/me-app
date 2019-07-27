@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { cors } from './conf/cors-config';
 // 路由
-import equip from './src/routes/equip';
+import { routerInit } from './src/routes/equip';
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/equip', equip);
+app.use('/equip', routerInit());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

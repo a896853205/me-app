@@ -7,7 +7,7 @@ CREATE TABLE `me`.`equip` (
   `name` VARCHAR(45) NOT NULL,
   `money` INT NOT NULL,
   `picUrl` VARCHAR(45),
-  `desc` TEXT,
+  `des` TEXT,
   PRIMARY KEY (`id`)
 )
 DEFAULT CHARACTER SET = utf8mb4;
