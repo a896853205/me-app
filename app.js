@@ -4,9 +4,10 @@ import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import { cors } from './conf/cors-config';
+import { cors } from './src/config/cors-config';
 // 路由
-import { routerInit } from './src/routes/equip';
+import { routerInit as equipRouterInit } from './src/routes/equip';
+import { routerInit as uploadTokenRouterInit } from './src/routes/upload-token';
 
 const app = express();
 
@@ -16,7 +17,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/equip', routerInit());
+app.use('/equip', equipRouterInit());
+app.use('/upload', uploadTokenRouterInit());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

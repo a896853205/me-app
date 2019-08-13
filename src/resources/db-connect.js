@@ -6,22 +6,31 @@ export const db = {
    * @param sqllan {String} sql语句
    * @param params {Array} 参数数组
    */
-  query: (sqllan, params) => {
+  query (sqllan, params) {
     return new Promise((resolve, reject) => {
       let connection = mysql.createConnection(dbConfig);
+
       // 链接开始
       connection.connect(err => {
-        if (err) reject(err);
+        if (err) {
+          reject(err);
+        }
       });
+
       // 进行数据处理
       connection.query(sqllan, params, (err, rows, fields) => {
-        if (err) reject(err);
+        if (err) {
+          reject(err);
+        }
         // 进行处理
         resolve(rows);
       });
+      
       // 链接结束
-      connection.end((err) => {
-        if(err) reject(err);
+      connection.end(err => {
+        if (err) {
+          reject(err);
+        }
       })
     });
   }
