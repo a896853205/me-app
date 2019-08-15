@@ -19,14 +19,20 @@ export const routerInit = () => {
   });
   
   // 插入一个装备
-  router.post('/insertEquip', (req, res, next) => {
-    equipDao.insertEquip(req.body)
-    .then(data => {
-      res.json(new Result(data));
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  router.post('/saveEquip', (req, res, next) => {
+    if (req.body.id) {
+      // 更新操作
+    } else {
+      // 增加操作
+      console.dir(req.body);
+      equipDao.insertEquip(req.body)
+      .then(data => {
+        res.json(new Result(data));
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
   });
 
   return router;
