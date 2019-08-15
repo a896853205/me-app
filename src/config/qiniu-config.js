@@ -2,15 +2,27 @@ import uuid from 'uuid/v1';
 import { ACCESSKEY, SECRETKEY } from '../constants/keys';
 import qiniu from 'qiniu';
 
-export const options = {
-  scope: 'a896853205',
-  returnBody: '{ "data": {"key":"$(key)","hash":"$(etag)","name":"$(x:name)"} ,"succ": 200, "status": 1 }',
-};
+const imageDomin = 'www.elricuna.top',
+      options = {
+        scope: 'a896853205',
+        returnBody: '{ "data": {"key": "$(key)", "hash": "$(etag)",' +
+          `"imageDomin": "${imageDomin}"}` +
+          ',"succ": 200, "status": 1 }',
+      };
 
-export function getUploadToken () {
-  const mac = new qiniu.auth.digest.Mac(ACCESSKEY, SECRETKEY);
+export function getUploadToken (fileType) {
+  // 生成秘钥和key
+  const mac = new qiniu.auth.digest.Mac(ACCESSKEY, SECRETKEY),
+        key = `${uuid()}.${fileType.split('/')[1]}`;
 
+  // 设置key
+  options.scope += `:${key}`;
   // 简单上传凭证
   let putPolicy = new qiniu.rs.PutPolicy(options);
-  return  putPolicy.uploadToken(mac);
+
+  return  { 
+    token: putPolicy.uploadToken(mac),
+    key,
+    imageDomin
+  };
 }

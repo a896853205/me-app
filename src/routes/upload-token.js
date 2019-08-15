@@ -7,13 +7,9 @@ export const routerInit = () => {
   let router = express.Router();
   // 查询所有装备
   router.post('/getuploadtoken', (req, res, next) => {
-    try {
-      res.json(
-        new Result(getUploadToken())
-      );
-    } catch (error) {
-      console.error(err);
-    }
+    res.json(
+      new Result(getUploadToken(req.body.fileType))
+    );
   });
 
   return router;
