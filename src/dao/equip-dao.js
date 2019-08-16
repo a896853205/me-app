@@ -17,5 +17,8 @@ export const equipDao = {
   },
   insertEquip: ({name, money, picUrl, des}) => {
     return db.query(equipMapper.insert, [uuid(), name, moneyHelper.formatMoney(money), 'picUrl', des]);
+  },
+  deleteEquip: uuid => {
+    return db.query(equipMapper.deleteById, [uuid]);
   }
 };

@@ -8,6 +8,8 @@ import { cors } from './src/config/cors-config';
 // 路由
 import { routerInit as equipRouterInit } from './src/routes/equip';
 import { routerInit as uploadTokenRouterInit } from './src/routes/upload-token';
+// result返回对象
+import { Result } from './util/response';
 
 const app = express();
 
@@ -35,7 +37,8 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
+  res.json(new Result({}, err.status, 0));
 });
 
 module.exports = app;

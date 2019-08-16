@@ -8,21 +8,21 @@ export const routerInit = () => {
   let router = express.Router();
 
   // 查询所有装备
-  router.post('/queryEquip',async (req, res, next) => {
+  router.post('/queryEquip', async (req, res, next) => {
     let data = await equipDao.queryEquip()
     .catch(err => {
       console.error(err);
     });
+    
     await res.json(new Result(data));
   });
   
-  // 插入一个装备
+  // 保存一个装备
   router.post('/saveEquip', (req, res, next) => {
     if (req.body.uuid) {
       // 更新操作
     } else {
       // 增加操作
-      console.dir(req.body);
       equipDao.insertEquip(req.body)
       .then(data => {
         res.json(new Result(data));
@@ -33,5 +33,15 @@ export const routerInit = () => {
     }
   });
 
+  // 删除指定装备
+  router.post('/deleteEquip', async (req, res, next) => {
+    await equipDao.deleteEquip(req.body.uuid)
+    .catch(err => {
+      console.error(err);
+    });
+
+    await res.json(new Result());
+  });
+  
   return router;
 }
