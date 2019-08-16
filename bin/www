@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 require('babel-register')({
-  presets: ['env']
+  presets: [
+    ['env', {
+      "targets": {
+        "node": "10.16.2"
+      }
+    }]
+  ]
 });
 /**
  * Module dependencies.

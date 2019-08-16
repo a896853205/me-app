@@ -8,19 +8,17 @@ export const routerInit = () => {
   let router = express.Router();
 
   // 查询所有装备
-  router.post('/queryEquip', (req, res, next) => {
-    equipDao.queryEquip()
-      .then(data => {
-        res.json(new Result(data));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+  router.post('/queryEquip',async (req, res, next) => {
+    let data = await equipDao.queryEquip()
+    .catch(err => {
+      console.error(err);
+    });
+    await res.json(new Result(data));
   });
   
   // 插入一个装备
   router.post('/saveEquip', (req, res, next) => {
-    if (req.body.id) {
+    if (req.body.uuid) {
       // 更新操作
     } else {
       // 增加操作
