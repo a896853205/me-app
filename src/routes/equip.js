@@ -21,6 +21,14 @@ export const routerInit = () => {
   router.post('/saveEquip', (req, res, next) => {
     if (req.body.uuid) {
       // 更新操作
+      equipDao.insertEquip(req.body)
+      .then(data => {
+        res.json(new Result(data));
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
     } else {
       // 增加操作
       equipDao.insertEquip(req.body)
