@@ -18,35 +18,23 @@ export const routerInit = () => {
   });
   
   // 保存一个装备
-  router.post('/saveEquip', (req, res, next) => {
+  router.post('/saveEquip', async (req, res, next) => {
     if (req.body.uuid) {
       // 更新操作
-      equipDao.insertEquip(req.body)
-      .then(data => {
-        res.json(new Result(data));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      let data = await equipDao.updateEquip(req.body);
 
+      await res.json(new Result(data));
     } else {
       // 增加操作
-      equipDao.insertEquip(req.body)
-      .then(data => {
-        res.json(new Result(data));
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      let data = await equipDao.insertEquip(req.body);
+
+      await res.json(new Result(data));
     }
   });
 
   // 删除指定装备
   router.post('/deleteEquip', async (req, res, next) => {
-    await equipDao.deleteEquip(req.body.uuid)
-    .catch(err => {
-      console.error(err);
-    });
+    await equipDao.deleteEquip(req.body.uuid);
 
     await res.json(new Result());
   });
