@@ -8,11 +8,19 @@ import uuid from 'uuid/v1';
 
 export const equipDao = {
   // 查询全部的装备
-  queryEquip: async () => {
-    let allEquip = await db.query(
-      new SqlObject(equipMapper.query)
-    );
-    
+  queryEquip: async bImportance => {
+    let allEquip = [];
+
+    if (bImportance) {
+      allEquip = await db.query(
+        new SqlObject(equipMapper.query)
+      );
+    } else {
+      allEquip = await db.query(
+        new SqlObject(equipMapper.queryOld)
+      );
+    }
+
     for (let i = 0; i < allEquip.length; i++) {
       let item = allEquip[i],
           picArr = [],
@@ -35,14 +43,14 @@ export const equipDao = {
   },
 
   // 增加一个装备
-  insertEquip: ({name, money, picUrl, des}) => {
+  insertEquip: ({name, money, picUrl, des, importance}) => {
     let equipUuid = uuid(),
         transaction = [];
     
     // 插入装备语句
     transaction.push(new SqlObject(
       equipMapper.insert,
-      [equipUuid, name, moneyHelper.formatMoney(money), des]
+      [equipUuid, name, moneyHelper.formatMoney(money), des, importance]
     ));
     
     // 图片数组插入语句
@@ -57,14 +65,14 @@ export const equipDao = {
     db.transactions(transaction);
   },
 
-  updateEquip: ({uuid: euqipUuid, name, money, picUrl, des}) => {
+  updateEquip: ({uuid: euqipUuid, name, money, picUrl, des, importance}) => {
     let transaction = [];
     
     // 更新装备元数据
     transaction.push(
       new SqlObject(
         equipMapper.update,
-        [name, moneyHelper.formatMoney(money), des, euqipUuid]
+        [name, moneyHelper.formatMoney(money), des, importance, euqipUuid]
       )
     );
     
@@ -113,5 +121,11 @@ export const equipDao = {
 
     // 进行事务处理
     db.transactions(transaction);
+  },
+
+  buyEquip: ({uuid, importance}) => {
+    db.query(
+      new SqlObject(equipMapper.buyEquip, [importance, uuid])
+    );
   }
 };

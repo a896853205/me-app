@@ -9,7 +9,7 @@ export const routerInit = () => {
 
   // 查询所有装备
   router.post('/queryEquip', async (req, res, next) => {
-    let data = await equipDao.queryEquip()
+    let data = await equipDao.queryEquip(req.body.bImportance)
     .catch(err => {
       console.error(err);
     });
@@ -35,6 +35,13 @@ export const routerInit = () => {
   // 删除指定装备
   router.post('/deleteEquip', async (req, res, next) => {
     await equipDao.deleteEquip(req.body.uuid);
+
+    await res.json(new Result());
+  });
+
+  // 拔草指定装备
+  router.post('/buyEquip', async (req, res, next) => {
+    await equipDao.buyEquip(req.body);
 
     await res.json(new Result());
   });
