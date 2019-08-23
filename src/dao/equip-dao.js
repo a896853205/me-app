@@ -53,13 +53,15 @@ export const equipDao = {
       [equipUuid, name, moneyHelper.formatMoney(money), des, importance]
     ));
     
-    // 图片数组插入语句
-    picUrl.forEach(url => {
-      transaction.push(new SqlObject(
-        imageMapper.insert,
-        [uuid(), url, equipUuid]
-      ))
-    })
+    if (picUrl) {
+      // 图片数组插入语句
+      picUrl.forEach(url => {
+        transaction.push(new SqlObject(
+          imageMapper.insert,
+          [uuid(), url, equipUuid]
+        ))
+      })
+    }
     
     // 进行事务处理
     db.transactions(transaction);
